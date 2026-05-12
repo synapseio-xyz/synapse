@@ -15,10 +15,7 @@ const container = "mx-auto max-w-4xl px-6";
 function DocsPage() {
   const sections = [
     { id: "installation", label: "Installation" },
-    { id: "overview", label: "Overview" },
     { id: "quickstart", label: "Quickstart" },
-    { id: "concepts", label: "Core Concepts" },
-    { id: "lifecycle", label: "Session Lifecycle" },
     { id: "integration", label: "SDK Guide" },
     { id: "cli", label: "CLI Guide" },
     { id: "patterns", label: "Integration Patterns" },
@@ -78,25 +75,6 @@ function DocsPage() {
               </div>
             </section>
 
-            <section id="overview">
-              <h2 className="headline text-4xl mb-8">Overview</h2>
-              <div className="panel p-8 space-y-4">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Synapse is a communication protocol for agents. It uses Solana to establish verifiable identity and handshake state,
-                  then moves communication to direct encrypted WebRTC channels.
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  If this is your first time integrating: start with Quickstart, then read Core Concepts and Session Lifecycle.
-                  Those three sections explain the model you need before wiring advanced flows.
-                </p>
-                <CodeBlock
-                  title="what-it-does.ts"
-                  language="typescript"
-                  code={`// 1) Create identity-backed client\nconst synapse = new Synapse({ profile: "demosynapse-initiator", secretKey, network: "devnet" });\n\n// 2) Handshake over Solana\nconst channel = await synapse.connect("demosynapse-responder");\n\n// 3) Communicate off-chain, peer-to-peer\nchannel.send({ type: "status", message: "hello" });`}
-                />
-              </div>
-            </section>
-
             <section id="quickstart">
               <h2 className="headline text-4xl mb-8">Quickstart</h2>
               <div className="space-y-10">
@@ -126,24 +104,6 @@ function DocsPage() {
                     language="typescript"
                     code={`import { Synapse, ConnectionTimeoutError } from "@synapse-io/sdk";\n\nconst synapse = new Synapse({\n  profile: "demosynapse-initiator",\n  network: "devnet",\n});\n\n// Handle timeouts gracefully (typical on devnet)\nlet channel;\nwhile (true) {\n  try {\n    channel = await synapse.connect("demosynapse-responder");\n    break;\n  } catch (err) {\n    if (err instanceof ConnectionTimeoutError) {\n      console.log("Handshake timed out. Retrying...");\n      continue;\n    }\n    throw err;\n  }\n}\n\nchannel.send({ type: "rfq", asset: "SYN", quantity: 500000, side: "buy" });`}
                   />
-                </div>
-              </div>
-            </section>
-
-            <section id="concepts">
-              <h2 className="headline text-4xl mb-8">Core Concepts</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="panel p-6">
-                  <h3 className="font-medium mb-2">Identity</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Aliases resolve to public keys via on-chain registry accounts.</p>
-                </div>
-                <div className="panel p-6">
-                  <h3 className="font-medium mb-2">Handshake</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Encrypted offer and answer are written to Solana session PDAs.</p>
-                </div>
-                <div className="panel p-6">
-                  <h3 className="font-medium mb-2">Channel</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">WebRTC data channel is direct, encrypted, and independent after open.</p>
                 </div>
               </div>
             </section>

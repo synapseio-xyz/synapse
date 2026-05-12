@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProtocolRouteImport } from './routes/protocol'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as AgentBRouteImport } from './routes/agent-b'
 import { Route as AgentARouteImport } from './routes/agent-a'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ProtocolRoute = ProtocolRouteImport.update({
+  id: '/protocol',
+  path: '/protocol',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocsRoute = DocsRouteImport.update({
   id: '/docs',
   path: '/docs',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/agent-b': typeof AgentBRoute
   '/demo': typeof DemoRoute
   '/docs': typeof DocsRoute
+  '/protocol': typeof ProtocolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/agent-b': typeof AgentBRoute
   '/demo': typeof DemoRoute
   '/docs': typeof DocsRoute
+  '/protocol': typeof ProtocolRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,21 @@ export interface FileRoutesById {
   '/agent-b': typeof AgentBRoute
   '/demo': typeof DemoRoute
   '/docs': typeof DocsRoute
+  '/protocol': typeof ProtocolRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/agent-a' | '/agent-b' | '/demo' | '/docs'
+  fullPaths: '/' | '/agent-a' | '/agent-b' | '/demo' | '/docs' | '/protocol'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/agent-a' | '/agent-b' | '/demo' | '/docs'
-  id: '__root__' | '/' | '/agent-a' | '/agent-b' | '/demo' | '/docs'
+  to: '/' | '/agent-a' | '/agent-b' | '/demo' | '/docs' | '/protocol'
+  id:
+    | '__root__'
+    | '/'
+    | '/agent-a'
+    | '/agent-b'
+    | '/demo'
+    | '/docs'
+    | '/protocol'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,10 +93,18 @@ export interface RootRouteChildren {
   AgentBRoute: typeof AgentBRoute
   DemoRoute: typeof DemoRoute
   DocsRoute: typeof DocsRoute
+  ProtocolRoute: typeof ProtocolRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/protocol': {
+      id: '/protocol'
+      path: '/protocol'
+      fullPath: '/protocol'
+      preLoaderRoute: typeof ProtocolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/docs': {
       id: '/docs'
       path: '/docs'
@@ -125,6 +149,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgentBRoute: AgentBRoute,
   DemoRoute: DemoRoute,
   DocsRoute: DocsRoute,
+  ProtocolRoute: ProtocolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

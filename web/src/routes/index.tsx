@@ -29,7 +29,7 @@ const buildCards: [string, string, string, string][] = [
   ["B.01", "Start Building", "Everything you need to ship an agent on Synapse.", "/docs"],
   ["B.02", "Explore the Protocol", "Understand how Synapse works under the hood.", "/docs"],
   ["B.03", "Contribute", "Open source. Open to everyone.", "https://github.com/abdushakurob/synapse"],
-  ["B.04", "Get Support", "Questions? The community is always open.", "#"],
+  ["B.04", "Get Support", "Questions? The community is always open.", "https://github.com/abdushakurob/synapse/issues"],
 ];
 
 function Index() {

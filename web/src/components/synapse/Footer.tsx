@@ -1,14 +1,40 @@
+import { Link } from "@tanstack/react-router";
+
 export function Footer() {
-  const cols: [string, string[]][] = [
-    ["Protocol", ["Overview", "Architecture", "Roadmap", "Whitepaper"]],
-    ["Build", ["Docs", "SDK", "Examples", "GitHub"]],
-    ["Network", ["Explorer", "Status", "Validators", "Bridges"]],
-    ["Community", ["Discord", "X", "Blog", "Brand"]],
+  const cols = [
+    {
+      title: "Protocol",
+      links: [
+        { label: "Overview", href: "/protocol#overview" },
+        { label: "Architecture", href: "/protocol#architecture" },
+        { label: "Cryptographic Handshake", href: "/protocol#cryptography" },
+        { label: "Solana State", href: "/protocol#pda-layout" },
+      ],
+    },
+    {
+      title: "Build",
+      links: [
+        { label: "Installation", href: "/docs#installation" },
+        { label: "Quickstart", href: "/docs#quickstart" },
+        { label: "SDK Guide", href: "/docs#integration" },
+        { label: "CLI Reference", href: "/docs#cli" },
+      ],
+    },
+    {
+      title: "Demo",
+      links: [
+        { label: "Negotiation Board", href: "/demo" },
+        { label: "Apex Capital Dashboard", href: "/agent-a" },
+        { label: "Meridian Trading Dashboard", href: "/agent-b" },
+        { label: "Repository Source", href: "https://github.com/abdushakurob/synapse", isExternal: true },
+      ],
+    },
   ];
+
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+        <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
             <div className="flex items-center gap-2">
               <span className="inline-block h-2 w-2 rotate-45 bg-primary" />
@@ -24,17 +50,32 @@ export function Footer() {
               </span>
             </div>
           </div>
-          {cols.map(([head, links]) => (
-            <div key={head}>
+          {cols.map((col) => (
+            <div key={col.title}>
               <h4 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                {head}
+                {col.title}
               </h4>
               <ul className="mt-4 space-y-2.5">
-                {links.map((l) => (
-                  <li key={l}>
-                    <a href="#" className="text-sm text-foreground/85 transition hover:text-primary">
-                      {l}
-                    </a>
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    {link.isExternal ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sm text-foreground/85 transition hover:text-primary"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.href.split("#")[0]}
+                        hash={link.href.includes("#") ? link.href.split("#")[1] : undefined}
+                        className="text-sm text-foreground/85 transition hover:text-primary"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -46,8 +87,21 @@ export function Footer() {
             © 2026 Synapse · Open protocol · Built on Solana
           </p>
           <div className="flex gap-6">
-            <a href="#" className="font-mono text-[11px] text-muted-foreground transition hover:text-foreground">Privacy</a>
-            <a href="#" className="font-mono text-[11px] text-muted-foreground transition hover:text-foreground">Terms</a>
+            <Link
+              to="/protocol"
+              hash="whitepaper"
+              className="font-mono text-[11px] text-muted-foreground transition hover:text-foreground"
+            >
+              License
+            </Link>
+            <a
+              href="https://github.com/abdushakurob/synapse"
+              target="_blank"
+              rel="noreferrer"
+              className="font-mono text-[11px] text-muted-foreground transition hover:text-foreground"
+            >
+              GitHub Source
+            </a>
           </div>
         </div>
       </div>

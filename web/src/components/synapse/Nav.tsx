@@ -28,7 +28,7 @@ export function Nav() {
           </span>
         </a>
         <nav className="hidden items-center gap-7 md:flex">
-          <Link to="/docs" hash="protocol" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition hover:text-foreground">
+          <Link to="/protocol" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition hover:text-foreground">
             Protocol
           </Link>
           <Link to="/docs" className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition hover:text-foreground">
